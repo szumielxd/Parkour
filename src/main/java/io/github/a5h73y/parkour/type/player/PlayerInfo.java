@@ -8,6 +8,7 @@ import io.github.a5h73y.parkour.utility.TranslationUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -284,12 +285,15 @@ public class PlayerInfo {
     /**
      * Save the Player's Inventory and Armor contents.
      * @param player player
+     * @return CompletableFuture when inventory saving has been ended
      */
-    public static void saveInventoryArmor(Player player) {
-        ParkourConfiguration inventoryConfig = Parkour.getConfig(ConfigType.INVENTORY);
-        inventoryConfig.set(player.getUniqueId() + ".Inventory", Arrays.asList(player.getInventory().getContents()));
+    public static CompletableFuture<Void> saveInventoryArmor(Player player) {
+    	final ParkourConfiguration inventoryConfig = Parkour.getConfig(ConfigType.INVENTORY);
+    	inventoryConfig.set(player.getUniqueId() + ".Inventory", Arrays.asList(player.getInventory().getContents()));
         inventoryConfig.set(player.getUniqueId() + ".Armor", Arrays.asList(player.getInventory().getArmorContents()));
-        inventoryConfig.save();
+        return CompletableFuture.runAsync(() -> {
+            inventoryConfig.save();
+        });
     }
 
     /**
@@ -313,23 +317,29 @@ public class PlayerInfo {
     /**
      * Save the Player's Health and Food Level.
      * @param player player
+     * @return CompletableFuture when inventory saving has been ended
      */
-    public static void saveHealthFoodLevel(Player player) {
-        ParkourConfiguration inventoryConfig = Parkour.getConfig(ConfigType.INVENTORY);
+    public static CompletableFuture<Void> saveHealthFoodLevel(Player player) {
+        final ParkourConfiguration inventoryConfig = Parkour.getConfig(ConfigType.INVENTORY);
         inventoryConfig.set(player.getUniqueId() + ".Health", player.getHealth());
         inventoryConfig.set(player.getUniqueId() + ".Hunger", player.getFoodLevel());
-        inventoryConfig.save();
+        return CompletableFuture.runAsync(() -> {
+            inventoryConfig.save();
+        });
     }
 
     /**
      * Reset the saved Health and Food Level.
      * @param player player
+     * @return CompletableFuture when inventory saving has been ended
      */
-    public static void resetSavedHealthFoodLevel(Player player) {
-        ParkourConfiguration inventoryConfig = Parkour.getConfig(ConfigType.INVENTORY);
+    public static CompletableFuture<Void> resetSavedHealthFoodLevel(Player player) {
+        final ParkourConfiguration inventoryConfig = Parkour.getConfig(ConfigType.INVENTORY);
         inventoryConfig.set(player.getUniqueId() + ".Health", null);
         inventoryConfig.set(player.getUniqueId() + ".Hunger", null);
-        inventoryConfig.save();
+        return CompletableFuture.runAsync(() -> {
+            inventoryConfig.save();
+        });
     }
 
     /**
@@ -344,21 +354,27 @@ public class PlayerInfo {
     /**
      * Save the Player's XP Level.
      * @param player player
+     * @return CompletableFuture when inventory saving has been ended
      */
-    public static void saveXpLevel(Player player) {
-        ParkourConfiguration inventoryConfig = Parkour.getConfig(ConfigType.INVENTORY);
-        inventoryConfig.set(player.getUniqueId() + ".XPLevel", player.getLevel());
-        inventoryConfig.save();
+    public static CompletableFuture<Void> saveXpLevel(Player player) {
+        final ParkourConfiguration inventoryConfig = Parkour.getConfig(ConfigType.INVENTORY);
+        return CompletableFuture.runAsync(() -> {
+        	inventoryConfig.set(player.getUniqueId() + ".XPLevel", player.getLevel());
+            inventoryConfig.save();
+        });
     }
 
     /**
      * Reset the Player's saved XP Level.
      * @param player player
+     * @return CompletableFuture when inventory saving has been ended
      */
-    public static void resetSavedXpLevel(Player player) {
+    public static CompletableFuture<Void> resetSavedXpLevel(Player player) {
         ParkourConfiguration inventoryConfig = Parkour.getConfig(ConfigType.INVENTORY);
-        inventoryConfig.set(player.getUniqueId() + ".XPLevel", null);
-        inventoryConfig.save();
+        return CompletableFuture.runAsync(() -> {
+        	inventoryConfig.set(player.getUniqueId() + ".XPLevel", null);
+            inventoryConfig.save();
+        });
     }
 
     /**
