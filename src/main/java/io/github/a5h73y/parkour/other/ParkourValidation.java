@@ -15,6 +15,8 @@ import io.github.a5h73y.parkour.type.player.PlayerInfo;
 import io.github.a5h73y.parkour.utility.PermissionUtils;
 import io.github.a5h73y.parkour.utility.TranslationUtils;
 import io.github.a5h73y.parkour.utility.ValidationUtils;
+import io.github.a5h73y.parkour.utility.VanishUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Bukkit;
@@ -424,10 +426,10 @@ public class ParkourValidation {
      * @return player can challenge player
      */
     public static boolean canChallengePlayer(Player player, Challenge challenge, String targetPlayerName) {
-        Player targetPlayer = Bukkit.getPlayer(targetPlayerName);
+        Player targetPlayer = Bukkit.getPlayerExact(targetPlayerName);
         Parkour parkour = Parkour.getInstance();
 
-        if (targetPlayer == null) {
+        if (targetPlayer == null || !VanishUtils.canSee(player, targetPlayer)) {
             TranslationUtils.sendMessage(player, "This player is not online!");
             return false;
         }

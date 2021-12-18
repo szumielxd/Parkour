@@ -54,6 +54,8 @@ import io.github.a5h73y.parkour.utility.PluginUtils;
 import io.github.a5h73y.parkour.utility.StringUtils;
 import io.github.a5h73y.parkour.utility.TranslationUtils;
 import io.github.a5h73y.parkour.utility.ValidationUtils;
+import io.github.a5h73y.parkour.utility.VanishUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -1299,15 +1301,22 @@ public class PlayerManager extends AbstractPluginReceiver {
 	 * @param sender command sender
 	 */
 	public void displayParkourPlayers(CommandSender sender) {
-		if (getNumberOfParkourPlayer() == 0) {
+		
+		Map<Player, ParkourSession> players = new HashMap<>(parkourPlayers);
+		if (sender instanceof Player) {
+			Player player = (Player) sender;
+			players.entrySet().removeIf(e -> !VanishUtils.canSee(player, e.getKey()));
+		}
+		
+		if (players.isEmpty()) {
 			TranslationUtils.sendMessage(sender, "Nobody is playing Parkour!");
 			return;
 		}
-
-		TranslationUtils.sendMessage(sender, getNumberOfParkourPlayer() + " players using Parkour: ");
+		
+		TranslationUtils.sendMessage(sender, players.size() + " players using Parkour: ");
 
 		String playingMessage = TranslationUtils.getTranslation("Parkour.Playing", false);
-		for (Map.Entry<Player, ParkourSession> entry : parkourPlayers.entrySet()) {
+		for (Map.Entry<Player, ParkourSession> entry : players.entrySet()) {
 			sender.sendMessage(TranslationUtils.replaceAllParkourPlaceholders(
 					playingMessage, entry.getKey(), entry.getValue()));
 		}
