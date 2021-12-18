@@ -70,6 +70,7 @@ public class StringsConfig extends ParkourConfiguration {
 		this.addDefault("Parkour.Challenge.Created", "Challenge for &b%VALUE% &fcreated");
 		this.addDefault("Parkour.Challenge.StartCommand", "When ready, enter &b/pa challenge start");
 		this.addDefault("Parkour.Challenge.Wager", " &fwith a wager of &b%VALUE%&f!");
+		this.addDefault("Parkour.Challenge.WagerWarning", "&cWarning! this challenge has wager of &b%VALUE%$&c!");
 		this.addDefault("Parkour.Challenge.InviteSent", "A Challenge invite was sent to &b%VALUE%&f!");
 		this.addDefault("Parkour.Challenge.InviteReceived", "You have been Challenged to &b%COURSE% &fby &b%PLAYER%&f!");
 		this.addDefault("Parkour.Challenge.AcceptDecline", "To accept &a/pa accept &for &c/pa decline &fto decline.");
