@@ -116,7 +116,7 @@ public class ChallengeManager extends AbstractPluginReceiver {
             targetPlayer.sendMessage(TranslationUtils.getTranslation("Parkour.Challenge.InviteReceived")
                     .replace(COURSE_PLACEHOLDER, challenge.getCourseName())
                     .replace(PLAYER_PLACEHOLDER, challenge.getChallengeHost().getName()));
-            if (challenge.getWager() != null) targetPlayer.sendMessage(TranslationUtils.getValueTranslation("Parkour.Challenge.WagerWarning", String.format("%d", challenge.getWager())));
+            if (challenge.getWager() != null) targetPlayer.sendMessage(TranslationUtils.getValueTranslation("Parkour.Challenge.WagerWarning", String.format("%d", challenge.getWager().doubleValue())));
             TranslationUtils.sendTranslation("Parkour.Challenge.AcceptDecline", false, targetPlayer);
         }
     }
