@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -329,6 +330,8 @@ public class ChallengeManager extends AbstractPluginReceiver {
             public void run() {
                 if (count > 1) {
                     count--;
+                    Location loc = parkour.getCourseManager().findByName(challenge.getCourseName()).getCheckpoints().get(0).getLocation();
+                    challenge.getParticipatingPlayers().forEach(p -> p.teleport(loc));
                     TranslationUtils.sendValueTranslation("Parkour.Countdown", String.valueOf(count),
                             challenge.getParticipatingPlayers().toArray(new Player[0]));
 
@@ -477,6 +480,11 @@ public class ChallengeManager extends AbstractPluginReceiver {
 
         if (challenge == null) {
             TranslationUtils.sendMessage(player, "You have not created a challenge.");
+            return;
+        }
+        
+        if (parkour.getPlayerManager().isPlaying(player)) {
+        	TranslationUtils.sendMessage(player, "You cannot start a Challenge when you're already on a Course.");
             return;
         }
 
