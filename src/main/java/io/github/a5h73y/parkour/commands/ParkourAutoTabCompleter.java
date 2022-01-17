@@ -10,6 +10,8 @@ import io.github.a5h73y.parkour.type.kit.ParkourKitInfo;
 import io.github.a5h73y.parkour.type.lobby.LobbyInfo;
 import io.github.a5h73y.parkour.type.player.PlayerInfo;
 import io.github.a5h73y.parkour.utility.PermissionUtils;
+import io.github.a5h73y.parkour.utility.VanishUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -83,7 +85,7 @@ public class ParkourAutoTabCompleter extends AbstractPluginReceiver implements T
     public List<String> onTabComplete(@NotNull CommandSender sender,
                                       @NotNull Command cmd,
                                       @NotNull String alias,
-                                      @NotNull String... args) {
+                                      @NotNull String[] args) {
         if (!(sender instanceof Player)) {
             return Collections.emptyList();
         }
@@ -99,7 +101,7 @@ public class ParkourAutoTabCompleter extends AbstractPluginReceiver implements T
             allowedCommands = populateFirstChildCommands(args[0]);
 
         } else if (args.length == 3) {
-            allowedCommands = populateSecondChildCommands(args[0], args[1]);
+            allowedCommands = populateSecondChildCommands(sender, args[0], args[1]);
 
         } else if (args.length == 4) {
             allowedCommands = populateThirdChildCommands(args[0], args[1], args[2]);
@@ -261,7 +263,7 @@ public class ParkourAutoTabCompleter extends AbstractPluginReceiver implements T
      * @param arg1 first argument
      * @return allowed commands
      */
-    private List<String> populateSecondChildCommands(String mainCommand, String arg1) {
+    private List<String> populateSecondChildCommands(CommandSender sender, String mainCommand, String arg1) {
         List<String> allowedCommands = new ArrayList<>();
 
         switch (mainCommand.toLowerCase()) {
@@ -302,7 +304,7 @@ public class ParkourAutoTabCompleter extends AbstractPluginReceiver implements T
                         allowedCommands = new ArrayList<>(LobbyInfo.getAllLobbyNames());
                         break;
                     case "player":
-                        allowedCommands = getAllOnlinePlayerNames();
+                        allowedCommands = getAllOnlinePlayerNames(sender);
                         break;
                     default:
                         break;
@@ -314,7 +316,7 @@ public class ParkourAutoTabCompleter extends AbstractPluginReceiver implements T
                         allowedCommands = CourseInfo.getAllCourseNames();
                         break;
                     case "invite":
-                        allowedCommands = getAllOnlinePlayerNames();
+                        allowedCommands = getAllOnlinePlayerNames(sender);
                         break;
                     default:
                         break;
@@ -358,7 +360,7 @@ public class ParkourAutoTabCompleter extends AbstractPluginReceiver implements T
      * Get all Online Player names.
      * @return online player names
      */
-    private List<String> getAllOnlinePlayerNames() {
-        return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
+    private List<String> getAllOnlinePlayerNames(CommandSender sender) {
+        return Bukkit.getOnlinePlayers().stream().filter(p -> !(sender instanceof Player) || VanishUtils.canSee((Player) sender, p)).map(Player::getName).collect(Collectors.toList());
     }
 }

@@ -40,7 +40,7 @@ public class ParkourCommands extends AbstractPluginReceiver implements CommandEx
     public boolean onCommand(@NotNull CommandSender sender,
                              @NotNull Command command,
                              @NotNull String label,
-                             @NotNull String... args) {
+                             @NotNull String[] args) {
         if (!(sender instanceof Player)) {
             TranslationUtils.sendMessage(sender, "'/parkour' is only available in game.");
             TranslationUtils.sendMessage(sender, "Use '/pac' for console commands.");
