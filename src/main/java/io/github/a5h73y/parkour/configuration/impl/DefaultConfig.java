@@ -263,6 +263,7 @@ public class DefaultConfig extends Yaml {
 		this.setDefault("Other.UseAutoTabCompletion", true);
 		this.setDefault("Other.CheckForUpdates", true);
 		this.setDefault("Other.LogAdminTasksToFile", true);
+		this.setDefault("Other.CheckWildcardPermissions", true);
 		this.setDefault("Other.EnforceSafeCheckpoints", true);
 		this.setDefault("Other.PlayerConfigUsePlayerUUID", true);
 		this.setDefault("Other.Parkour.SignProtection", true);

@@ -36,10 +36,14 @@ public class PermissionUtils {
 	 * @return player has permission
 	 */
 	public static boolean hasPermission(CommandSender commandSender, Permission permission, boolean displayMessage) {
-		if (commandSender.isOp()
-				|| commandSender.hasPermission(Permission.PARKOUR_ALL.getPermission())
-				|| commandSender.hasPermission(permission.getPermissionRoot() + "." + WILDCARD)
-				|| commandSender.hasPermission(permission.getPermission())) {
+		if (Parkour.getDefaultConfig().getBoolean("Other.CheckWildcardPermissions")) {
+			if (commandSender.isOp()
+					|| commandSender.hasPermission(Permission.PARKOUR_ALL.getPermission())
+					|| commandSender.hasPermission(permission.getPermissionRoot() + "." + WILDCARD)
+					|| commandSender.hasPermission(permission.getPermission())) {
+				return true;
+			}
+		} else if (commandSender.hasPermission(permission.getPermission())) {
 			return true;
 		}
 
@@ -60,10 +64,14 @@ public class PermissionUtils {
 	 */
 	public static boolean hasSpecificPermission(CommandSender commandSender, Permission permission, String permissionNode,
 	                                            boolean displayMessage) {
-		if (commandSender.isOp()
-				|| commandSender.hasPermission(Permission.PARKOUR_ALL.getPermission())
-				|| commandSender.hasPermission(permission.getPermissionRoot() + "." + WILDCARD)
-				|| commandSender.hasPermission(permission.getPermissionRoot() + "." + permissionNode)) {
+		if (Parkour.getDefaultConfig().getBoolean("Other.CheckWildcardPermissions")) {
+			if (commandSender.isOp()
+					|| commandSender.hasPermission(Permission.PARKOUR_ALL.getPermission())
+					|| commandSender.hasPermission(permission.getPermissionRoot() + "." + WILDCARD)
+					|| commandSender.hasPermission(permission.getPermissionRoot() + "." + permissionNode)) {
+				return true;
+			}
+		} else if (commandSender.hasPermission(permission.getPermission())) {
 			return true;
 		}
 
