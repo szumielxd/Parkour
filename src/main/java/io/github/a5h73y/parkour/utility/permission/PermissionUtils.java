@@ -71,7 +71,7 @@ public class PermissionUtils {
 					|| commandSender.hasPermission(permission.getPermissionRoot() + "." + permissionNode)) {
 				return true;
 			}
-		} else if (commandSender.hasPermission(permission.getPermission())) {
+		} else if (commandSender.hasPermission(permission.getPermissionRoot() + "." + permissionNode)) {
 			return true;
 		}
 
